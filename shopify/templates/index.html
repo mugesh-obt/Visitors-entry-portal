@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="col-md-offset-1 col-md-4">
+        <h3 class="page-header text-primary text-center">Registration</h3>
+        <form method="POST" action="addData">
+            {% csrf_token %}
+            {{form}}
+            <div class="pull-right" style="margin-top:20px;">
+                <input type="reset" class="btn btn-danger" value="Clear">
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        {% if datas %}
+        <h3 class="page-header text-primary text-center">view Registration</h3>
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger">
+                    {{message}}
+                </div>
+        {% else %}
+            <div class="alert alert-{{message.tags}}">
+                {{message}}
+
+            </div>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align:center">S.NO</th>
+                    <th>name</th>
+                    <th>contact</th>
+                    <th>address</th>
+                    <th>mail</th>
+                    <th>update</th>
+                    <th>delete</th>
+                </tr>
+            </thead>
+            {% for data in datas %}
+                <tbody>
+                    <tr>
+                        <td style="text-align:center">{{forloop.counter}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.contact}}</td>
+                        <td>{{data.address}}</td>
+                        <td>{{data.mail}}</td>
+                        <td style="text-align:center"><a href="updateData/{{data.id}}" class="btn btn-info">update</a></td>
+                        <td style="text-align:center"><a href="deleteData/{{data.id}}" class="btn btn-danger">delete</a></td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
